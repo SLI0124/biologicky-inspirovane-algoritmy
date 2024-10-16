@@ -36,13 +36,13 @@ class Solution:
         x = self.params[0]
         y = self.params[1]
 
-        # Apply the function to each (x, y) pair in the grid, this always had some issues
+        # Apply the function to each (x, y) pair in the grid
         z = np.zeros_like(x)
         for index in range(x.shape[0]):
             for j in range(x.shape[1]):
                 z[index, j] = self.f(np.array([x[index, j], y[index, j]]))
 
-        self.ax.plot_surface(x, y, z, rstride=1, cstride=1, cmap='viridis', alpha=0.7)
+        self.ax.plot_surface(x, y, z, rstride=1, cstride=1, cmap='viridis', alpha=0.4)
 
     def show_graph(self):
         """Display the graph of the function."""
@@ -57,7 +57,7 @@ class Solution:
         self.tmp = []  # Reset temporary storage for points history
 
         # Execute the algorithm and collect points
-        all_points = self.algorithm(self.d, self.min, self.max, self.f, *args)
+        all_points = self.algorithm(self.min, self.max, self.f, *args)  # Removed dimension arg
 
         for points in all_points:
             current_value = self.f(np.array(points[-1]))  # Get the function value at the last point
@@ -86,7 +86,7 @@ class Solution:
             for p in self.tmp[index]:
                 z_value = self.f(np.array(p))
                 if np.isfinite(z_value):  # Ensure z_value is valid
-                    point_plot, = self.ax.plot([p[0]], [p[1]], [z_value], 'ro')  # Plot single point
+                    point_plot, = self.ax.plot([p[0]], [p[1]], [z_value], 'ro', markersize=10)  # plot a single point
                     self.points.append(point_plot)
 
         # Only display the current frame if there are points plotted
@@ -101,7 +101,7 @@ class Solution:
             raise Exception("Function requires 2 dimensions.")
 
         self.print_graph()
-        anim = FuncAnimation(self.fig, self.animate, frames=min(len(self.tmp), 50), interval=500)
+        anim = FuncAnimation(self.fig, self.animate, frames=min(len(self.tmp), 50), interval=250)
         output_path = f"animations/{self.algorithm.__name__}/{self.f.__name__}.gif"
 
         # Create the output directory if it doesn't exist
@@ -132,6 +132,40 @@ def blind_search(_lower_bound, _upper_bound, test_function, iterations=100):
     return best_points_history
 
 
+def hill_climbing(_lower_bound, _upper_bound, test_function, iterations=100, _step_size=0.1):
+    """Hill climbing algorithm for optimization."""
+    best_points_history = []
+    current_point = np.random.uniform(_lower_bound, _upper_bound, size=2)  # Start from a random point
+    best_points_history.append([list(current_point)])
+
+    for _ in range(iterations):
+        # Generate neighbors by adding/subtracting step_size
+        neighbors = [
+            current_point + np.array([_step_size, 0]),
+            current_point - np.array([_step_size, 0]),
+            current_point + np.array([0, _step_size]),
+            current_point - np.array([0, _step_size])
+        ]
+
+        # Keep neighbors within bounds
+        neighbors = [np.clip(neighbor, _lower_bound, _upper_bound) for neighbor in neighbors]
+
+        # Find the best neighbor
+        current_value = test_function(current_point)  # Get the value of the current point
+        best_neighbor = current_point  # Initialize the best neighbor as the current point
+        for neighbor in neighbors:  # Iterate through all neighbors
+            neighbor_value = test_function(neighbor)  # Get the value of the neighbor
+            if neighbor_value < current_value:  # If the neighbor is better
+                best_neighbor = neighbor  # Update the best neighbor
+                current_value = neighbor_value
+
+                # Update current point and store it if it's better
+        current_point = best_neighbor
+        best_points_history.append([list(current_point)])
+
+    return best_points_history
+
+
 if __name__ == '__main__':
 
     matplotlib.use('TkAgg')  # Use TkAgg backend for matplotlib
@@ -144,11 +178,16 @@ if __name__ == '__main__':
     for i, function in get_all_functions().items():
         lower_bound, upper_bound = function_ranges(function)
 
-        solution = Solution(dimension, lower_bound, upper_bound, step_size, function, blind_search)
+        # Uncomment to use blind search for this function
+        solution_blind_search = Solution(dimension, lower_bound, upper_bound, step_size, function, blind_search)
+        best_solution_blind_search = solution_blind_search.find_minimum(args=(max_iterations,))
+        print(
+            f"Function: {function.__name__}, Algorithm: blind_search, Best found solution: {best_solution_blind_search}")
+        solution_blind_search.save_anim()
 
-        # Find the minimum (and store history of best points)
-        best_solution = solution.find_minimum(args=(max_iterations,))
-        print(f"Function: {function.__name__}, Best found solution: {best_solution}")
-
-        # Save the animation as a GIF
-        solution.save_anim()
+        # Uncomment to use hill climbing for this function
+        solution_hill_climbing = Solution(dimension, lower_bound, upper_bound, step_size, function, hill_climbing)
+        best_solution_hill_climbing = solution_hill_climbing.find_minimum(args=(max_iterations,))
+        print(
+            f"Function: {function.__name__}, Algorithm: hill_climbing, Best found solution: {best_solution_hill_climbing}")
+        solution_hill_climbing.save_anim()
