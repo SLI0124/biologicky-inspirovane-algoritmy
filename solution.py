@@ -168,11 +168,15 @@ def hill_climbing(_lower_bound, _upper_bound, test_function, iterations=100, _st
 
 if __name__ == '__main__':
 
+    # TODO:
+    # 1. some functions need to be fixed by extending range of definition
+    # 2. keep or make bigger range and define step for each function
+
     matplotlib.use('TkAgg')  # Use TkAgg backend for matplotlib
 
     dimension = 2  # We need 2D for plotting
-    step_size = 0.4
-    max_iterations = 100  # Adjust this by your needs
+    step_size = 0.1
+    max_iterations = 10_000  # Adjust this by your needs
 
     # Iterate through all available functions and apply the optimization
     for i, function in get_all_functions().items():

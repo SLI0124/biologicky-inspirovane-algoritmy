@@ -12,9 +12,9 @@ def function_ranges(function):
     elif function == rosenbrock:
         return -5, 10
     elif function == griewank:
-        return -600, 600
+        return -5, 5
     elif function == schwefel:
-        return -500, 500
+        return -50, 50
     elif function == levy:
         return -10, 10
     elif function == michalewicz:
