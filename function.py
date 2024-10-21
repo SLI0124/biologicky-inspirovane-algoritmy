@@ -2,25 +2,25 @@
 import numpy as np
 
 
-def function_ranges(function):
+def get_function_parameters(function):
     if function == sphere:
-        return -5.12, 5.12
+        return -5.12, 5.12, 0.1
     elif function == ackley:
-        return -32.768, 32.768
+        return -32.768, 32.768, 1.0
     elif function == rastrigin:
-        return -5.12, 5.12
+        return -5.12, 5.12, 0.6
     elif function == rosenbrock:
-        return -5, 10
+        return -10, 10, 0.3
     elif function == griewank:
-        return -5, 5
+        return -50, 50, 1.0
     elif function == schwefel:
-        return -50, 50
+        return -500, 500, 2.5
     elif function == levy:
-        return -10, 10
+        return -10, 10, 0.1
     elif function == michalewicz:
-        return 0, np.pi
+        return 0, np.pi, 0.1
     elif function == zakharov:
-        return -5, 10
+        return -10, 10, 0.4
     else:
         return Exception("Function not found")
 
