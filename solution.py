@@ -19,7 +19,6 @@ SIGMA_HILL = 0.666  # surrounding area for neighbors based on normal distributio
 T_ZERO = 100  # initial temperature
 T_MIN = 0.5  # minimum temperature
 ALPHA_ANNEALING = 0.95  # temperature decrease factor
-SIGMA_ANNEALING = 0.1  # standard deviation for normal distribution
 
 
 class Solution:
@@ -174,42 +173,30 @@ def hill_climbing(lower_bound, upper_bound, test_function, iterations=MAX_ITERAT
     return best_points_history
 
 
-def simulated_annealing(lower_bound, upper_bound, test_function, iterations=MAX_ITERATIONS, t_zero=T_ZERO,
-                        t_min=T_MIN, alpha=ALPHA_ANNEALING, initial_sigma=SIGMA_ANNEALING):
-    """Improved simulated annealing algorithm for optimization."""
+def simulated_annealing(lower_bound, upper_bound, test_function, t_zero=T_ZERO, t_min=T_MIN, alpha=ALPHA_ANNEALING):
+    """Simulated annealing algorithm for optimization."""
     best_points_history = []
+    current_point = [np.random.uniform(lower_bound, upper_bound) for _ in range(2)]  # Start from a random point
+    current_fitness = test_function(np.array(current_point))  # Get the value of the initial point
+    best_points_history.append([list(current_point)])
 
-    x0 = [np.random.uniform(lower_bound, upper_bound) for _ in range(2)]  # Start from a random point
-    fitness = test_function(np.array(x0))  # Get the value of the initial point
-    best_points_history.append([list(x0)])  # Record the initial point
-    best_fitness = fitness  # Track the best fitness
-    best_solution = list(x0)  # Track the best solution
+    temperature = t_zero  # Initial temperature
+    while temperature > t_min:  # Continue until the temperature reaches the minimum value
+        neighbor = [np.random.normal(current_point[0], 1), np.random.normal(current_point[1], 1)]  # Generate a neighbor
+        # Ensure the neighbor is within the bounds
+        neighbor = [min(max(neighbor[0], lower_bound), upper_bound), min(max(neighbor[1], lower_bound), upper_bound)]
+        neighbor_fitness = test_function(np.array(neighbor))  # Evaluate the function at the neighbor
+        if neighbor_fitness < current_fitness:  # Update if the neighbor has a better fitness value
+            current_point = neighbor
+            current_fitness = neighbor_fitness
+        else:
+            acceptance_probability = np.exp(-(neighbor_fitness - current_fitness) / temperature)
+            if np.random.uniform(0, 1) < acceptance_probability:  # Accept the new solution with a probability
+                current_point = neighbor
+        temperature *= alpha  # Decrease the temperature
 
-    # Perform iterations of simulated annealing
-    acceptance_count = 0  # Count accepted worse solutions
-    for i in range(iterations):
-        t = max(t_zero * (alpha ** (i // 100)), t_min)  # Temperature decay every 100 iterations
-        sigma = initial_sigma * (1 - (i / iterations))  # Decrease sigma over time
+        best_points_history.append([list(current_point)])  # Record the best point after each iteration
 
-        # Generate a random neighbor
-        x1 = [np.random.normal(x0[j], sigma) for j in range(2)]
-        # Clip to bounds
-        x1 = np.clip(x1, lower_bound, upper_bound)
-        fitness1 = test_function(np.array(x1))  # Evaluate the function at the neighbor
-
-        # Acceptance criteria
-        if fitness1 < fitness or np.random.uniform(0, 1) < np.exp((fitness - fitness1) / t):
-            x0 = x1  # Update the current point
-            fitness = fitness1  # Update the fitness value
-            acceptance_count += 1  # Count the acceptance
-
-            if fitness < best_fitness:  # Update the best found solution
-                best_fitness = fitness
-                best_solution = list(x0)
-
-        best_points_history.append([list(x0)])  # Record the current best point
-
-    print(f"Acceptance rate: {acceptance_count / iterations:.2f}")
     return best_points_history
 
 
@@ -224,21 +211,21 @@ if __name__ == '__main__':
     for i, function in get_all_functions().items():
         lower_bound, upper_bound, step_size = get_function_parameters(function)
 
-        # blind search algorithm
-        solution_blind_search = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, blind_search,
-                                         MAX_ITERATIONS)
-        best_solution_blind_search = solution_blind_search.find_minimum()
-        print(f"Function: {function.__name__}, Algorithm: blind_search, "
-              f"Best found solution: {best_solution_blind_search}")
-        solution_blind_search.save_anim()
-
-        # hill climbing algorithm
-        solution_hill_climbing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, hill_climbing,
-                                          MAX_ITERATIONS)
-        best_solution_hill_climbing = solution_hill_climbing.find_minimum()
-        print(f"Function: {function.__name__}, Algorithm: hill_climbing, "
-              f"Best found solution: {best_solution_hill_climbing}")
-        solution_hill_climbing.save_anim()
+        # # blind search algorithm
+        # solution_blind_search = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, blind_search,
+        #                                  MAX_ITERATIONS)
+        # best_solution_blind_search = solution_blind_search.find_minimum()
+        # print(f"Function: {function.__name__}, Algorithm: blind_search, "
+        #       f"Best found solution: {best_solution_blind_search}")
+        # solution_blind_search.save_anim()
+        #
+        # # hill climbing algorithm
+        # solution_hill_climbing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, hill_climbing,
+        #                                   MAX_ITERATIONS)
+        # best_solution_hill_climbing = solution_hill_climbing.find_minimum()
+        # print(f"Function: {function.__name__}, Algorithm: hill_climbing, "
+        #       f"Best found solution: {best_solution_hill_climbing}")
+        # solution_hill_climbing.save_anim()
 
         # simulated annealing algorithm
         solution_simulated_annealing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function,
