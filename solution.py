@@ -211,21 +211,21 @@ if __name__ == '__main__':
     for i, function in get_all_functions().items():
         lower_bound, upper_bound, step_size = get_function_parameters(function)
 
-        # # blind search algorithm
-        # solution_blind_search = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, blind_search,
-        #                                  MAX_ITERATIONS)
-        # best_solution_blind_search = solution_blind_search.find_minimum()
-        # print(f"Function: {function.__name__}, Algorithm: blind_search, "
-        #       f"Best found solution: {best_solution_blind_search}")
-        # solution_blind_search.save_anim()
-        #
-        # # hill climbing algorithm
-        # solution_hill_climbing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, hill_climbing,
-        #                                   MAX_ITERATIONS)
-        # best_solution_hill_climbing = solution_hill_climbing.find_minimum()
-        # print(f"Function: {function.__name__}, Algorithm: hill_climbing, "
-        #       f"Best found solution: {best_solution_hill_climbing}")
-        # solution_hill_climbing.save_anim()
+        # blind search algorithm
+        solution_blind_search = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, blind_search,
+                                         MAX_ITERATIONS)
+        best_solution_blind_search = solution_blind_search.find_minimum()
+        print(f"Function: {function.__name__}, Algorithm: blind_search, "
+              f"Best found solution: {best_solution_blind_search}")
+        solution_blind_search.save_anim()
+
+        # hill climbing algorithm
+        solution_hill_climbing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, hill_climbing,
+                                          MAX_ITERATIONS)
+        best_solution_hill_climbing = solution_hill_climbing.find_minimum()
+        print(f"Function: {function.__name__}, Algorithm: hill_climbing, "
+              f"Best found solution: {best_solution_hill_climbing}")
+        solution_hill_climbing.save_anim()
 
         # simulated annealing algorithm
         solution_simulated_annealing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function,
