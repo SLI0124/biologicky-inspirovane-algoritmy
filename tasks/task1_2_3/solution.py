@@ -219,18 +219,18 @@ if __name__ == '__main__':
               f"Best found solution: {best_solution_blind_search}")
         solution_blind_search.save_anim()
 
-        # # hill climbing algorithm
-        # solution_hill_climbing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, hill_climbing,
-        #                                   MAX_ITERATIONS)
-        # best_solution_hill_climbing = solution_hill_climbing.find_minimum()
-        # print(f"Function: {function.__name__}, Algorithm: hill_climbing, "
-        #       f"Best found solution: {best_solution_hill_climbing}")
-        # solution_hill_climbing.save_anim()
-        #
-        # # simulated annealing algorithm
-        # solution_simulated_annealing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function,
-        #                                         simulated_annealing, MAX_ITERATIONS)
-        # best_solution_simulated_annealing = solution_simulated_annealing.find_minimum()
-        # print(f"Function: {function.__name__}, Algorithm: simulated_annealing, "
-        #       f"Best found solution: {best_solution_simulated_annealing}")
-        # solution_simulated_annealing.save_anim()
+        # hill climbing algorithm
+        solution_hill_climbing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, hill_climbing,
+                                          MAX_ITERATIONS)
+        best_solution_hill_climbing = solution_hill_climbing.find_minimum()
+        print(f"Function: {function.__name__}, Algorithm: hill_climbing, "
+              f"Best found solution: {best_solution_hill_climbing}")
+        solution_hill_climbing.save_anim()
+
+        # simulated annealing algorithm
+        solution_simulated_annealing = Solution(DIMENSION, lower_bound, upper_bound, step_size, function,
+                                                simulated_annealing, MAX_ITERATIONS)
+        best_solution_simulated_annealing = solution_simulated_annealing.find_minimum()
+        print(f"Function: {function.__name__}, Algorithm: simulated_annealing, "
+              f"Best found solution: {best_solution_simulated_annealing}")
+        solution_simulated_annealing.save_anim()
