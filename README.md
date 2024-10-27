@@ -25,3 +25,9 @@ extrém. Nakonec budou všechny výsledky jako předešle vizualizovány.
 Cílem třetího cvičení je implementace algoritmu simulovaného žíhání pro prohledávání v prostoru funkcí. Algorithmus
 simuluje proces žíhání kovu a postupně se snaží najít globální extrém v podobě výběru lepšího bodu v prostoru funkcí,
 nebo zůstat na současném bodě a zmenší teplotu. Výsledky budou vizualizovány.
+
+## 4. cvičení: Genetické algoritmy
+
+Úkolem čtvrtého cvičení je implementace obchodního cestujícího pomocí genetického algoritmu. Na začátku bude náhodně
+vygenerováno několik měst a následně bude genetickým algoritmem nalezena nejkratší cesta mezi nimi. Výsledky jsou
+krásně vizualizovány na animaci.
