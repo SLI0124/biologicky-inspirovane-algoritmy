@@ -50,19 +50,19 @@ def generate_random_population(cities, n=NP):
 
 def order_crossover(parent_a, parent_b):
     """Perform Order Crossover  on two parents to generate offspring"""
-    size = len(parent_a)
-    start, end = sorted(random.sample(range(size), 2))
+    size = len(parent_a)  # size of the parent
+    start, end = sorted(random.sample(range(size), 2))  # Select two random points in the parent
 
-    offspring = [None] * size
-    offspring[start:end] = parent_a[start:end]
+    offspring = [None] * size  # Initialize the offspring with None of size of the parent
+    offspring[start:end] = parent_a[start:end]  # copy the crossover segment from parent a
 
-    fill_pos = end
-    for city in parent_b:
-        if city not in offspring:
-            if fill_pos >= size:
-                fill_pos = 0
-            offspring[fill_pos] = city
-            fill_pos += 1
+    fill_pos = end  # Start filling from the end of the parent a segment
+    for city in parent_b:  # Fill the remaining cities from the parent b
+        if city not in offspring:  # If the city is not already in the offspring
+            if fill_pos >= size:  # If the fill position is at the end, start from the beginning
+                fill_pos = 0  # Start from the beginning
+            offspring[fill_pos] = city  # Fill the city
+            fill_pos += 1  # Move to the next position
 
     return offspring
 
