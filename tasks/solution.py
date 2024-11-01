@@ -113,7 +113,7 @@ class Solution:
         plt.close(self.fig)  # Close the figure after saving
 
 
-def import_and_run(algorithm_name):
+def import_and_run(algorithm):
     matplotlib.use('TkAgg')  # Use TkAgg backend for matplotlib
 
     if DIMENSION != 2:
@@ -123,7 +123,9 @@ def import_and_run(algorithm_name):
     for i, function in get_all_functions().items():
         lower_bound, upper_bound, step_size = get_function_parameters(function)
 
-        solution = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, algorithm_name, MAX_ITERATIONS)
+        solution = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, algorithm, MAX_ITERATIONS)
         best_solution = solution.find_minimum()
-        print(f"Function: {function.__name__}, Algorithm: {algorithm_name}, Best found solution: {best_solution}")
+        function_name = function.__name__ if hasattr(function, '__name__') else str(function)
+        algorithm_name = algorithm.__name__ if hasattr(algorithm, '__name__') else str(algorithm)
+        print(f"Function: {function_name}, Algorithm: {algorithm_name}, Best found solution: {best_solution}")
         solution.save_anim()
