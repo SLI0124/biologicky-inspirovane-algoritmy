@@ -30,4 +30,9 @@ nebo zůstat na současném bodě a zmenší teplotu. Výsledky budou vizualizov
 
 Úkolem čtvrtého cvičení je implementace obchodního cestujícího pomocí genetického algoritmu. Na začátku bude náhodně
 vygenerováno několik měst a následně bude genetickým algoritmem nalezena nejkratší cesta mezi nimi. Výsledky jsou
-krásně vizualizovány na animaci. 
+krásně vizualizovány na animaci.
+
+## 5. cvičení: Diferenciální evoluce
+
+Cílem pátého cvičení je implementace algoritmu diferenciální evoluce pro prohledávání v prostoru funkcí. Implementovaný
+algoritmus pracuje s populací jedinců, kteří se vzájemně kříží a mutují. Výsledky budou vizualizovány.
