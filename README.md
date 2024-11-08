@@ -36,3 +36,9 @@ krásně vizualizovány na animaci.
 
 Cílem pátého cvičení je implementace algoritmu diferenciální evoluce pro prohledávání v prostoru funkcí. Implementovaný
 algoritmus pracuje s populací jedinců, kteří se vzájemně kříží a mutují. Výsledky budou vizualizovány.
+
+## 6. cvičení: Particle swarm optimization
+
+Cílem šestého cvičení je implementace algoritmu particle swarm optimization pro prohledávání v prostoru funkcí.
+Implementovaný algoritmus pracuje s hejnem částic, které se vzájemně ovlivňují a snaží se najít globální extrém v
+prostoru funkcí. 
