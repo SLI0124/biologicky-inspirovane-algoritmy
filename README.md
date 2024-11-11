@@ -6,39 +6,51 @@ oblasti evolucí a hejnové inteligence a aplikovat je na reálné problémy. Z�
 postupech založených na principech, odpozorovaných z biologických dějů a dynamik. Po úspěšném absolvování kurzu bude
 absolvent schopen aplikovat metody probírané v kurzu na reálné problémy praxe.
 
-# Cvičení
+[Odkaz](https://michaelmachu.eu/bioinspired/) na stránku předmětu. Odkaz na jiný, pravděpodobně starší, odkaz se nachází
+[zde](https://homel.vsb.cz/~ska206/bia.html).
 
-## 1. cvičení: Blind search
+## Spuštění a instalace prostředí
 
-Cílem prvního cvičení je implementace algoritmu pro slepé prohledávání v prostoru funkcí. Implementovaný algoritmus
-bude následně aplikován na vybraný problém na všech funkcí a získané výsledky (body v prostoru funkcí) budou vhodně
-vizualizovány.
+### Instalace prostředí
 
-## 2. cvičení: Hill climbing
+#### Linux & macOS:
 
-Cílem druhého cvičení je implementace algoritmu hill climbing pro prohledávání v prostoru funkcí. Implementovaný
-algoritmus pracuje s náhodným bodem, kolem kterého prohledává okolí v rámci sousedních bodů dokud nenalezne lokální
-extrém. Nakonec budou všechny výsledky jako předešle vizualizovány.
+```bash
+python3 -m venv venv
+```
 
-## 3. cvičení: Simulované žíhání
+#### Windows:
 
-Cílem třetího cvičení je implementace algoritmu simulovaného žíhání pro prohledávání v prostoru funkcí. Algorithmus
-simuluje proces žíhání kovu a postupně se snaží najít globální extrém v podobě výběru lepšího bodu v prostoru funkcí,
-nebo zůstat na současném bodě a zmenší teplotu. Výsledky budou vizualizovány.
+```bash
+python -m venv venv
+```
 
-## 4. cvičení: Genetické algoritmy
+### Spuštění prostředí
 
-Úkolem čtvrtého cvičení je implementace obchodního cestujícího pomocí genetického algoritmu. Na začátku bude náhodně
-vygenerováno několik měst a následně bude genetickým algoritmem nalezena nejkratší cesta mezi nimi. Výsledky jsou
-krásně vizualizovány na animaci.
+#### Linux & macOS:
 
-## 5. cvičení: Diferenciální evoluce
+```bash
+source venv/bin/activate
+```
 
-Cílem pátého cvičení je implementace algoritmu diferenciální evoluce pro prohledávání v prostoru funkcí. Implementovaný
-algoritmus pracuje s populací jedinců, kteří se vzájemně kříží a mutují. Výsledky budou vizualizovány.
+#### Windows:
 
-## 6. cvičení: Particle swarm optimization
+```bash
+venv\Scripts\activate
+```
 
-Cílem šestého cvičení je implementace algoritmu particle swarm optimization pro prohledávání v prostoru funkcí.
-Implementovaný algoritmus pracuje s hejnem částic, které se vzájemně ovlivňují a snaží se najít globální extrém v
-prostoru funkcí. 
+### Instalace závislostí
+
+```bash
+pip install -r requirements.txt
+```
+
+### Spuštění Jupyter Notebooku
+
+```bash
+jupyter notebook
+```
+
+## Cvičení
+
+Vše k cvičení naleznete v složce [tasks](tasks) a zadání veškerých cvičení naleznete [zde](tasks/README.md).
