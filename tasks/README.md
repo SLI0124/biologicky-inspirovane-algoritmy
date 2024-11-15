@@ -2,34 +2,43 @@
 
 ## 1. cvičení: Blind search
 
-Cílem prvního cvičení je implementace algoritmu pro slepé prohledávání v prostoru funkcí. Implementovaný algoritmus
-bude následně aplikován na vybraný problém na všech funkcí a získané výsledky (body v prostoru funkcí) budou vhodně
-vizualizovány.
+Cílem prvního cvičení je implementace algoritmu pro slepé prohledávání v prostoru funkcí. Algoritmus systematicky
+prozkoumává všechny body v definovaném prostoru, bez ohledu na jejich hodnotu, aby našel globální extrém. Tento přístup
+je vyčerpávající, ale poskytuje přehled o celém prostoru funkcí. Výsledky budou vizualizovány, aby bylo možné vidět
+pokrytí prostoru a nalezené řešení.
 
 ## 2. cvičení: Hill climbing
 
-Cílem druhého cvičení je implementace algoritmu hill climbing pro prohledávání v prostoru funkcí. Implementovaný
-algoritmus pracuje s náhodným bodem, kolem kterého prohledává okolí v rámci sousedních bodů dokud nenalezne lokální
-extrém. Nakonec budou všechny výsledky jako předešle vizualizovány.
+Cílem druhého cvičení je implementace algoritmu hill climbing pro prohledávání v prostoru funkcí. Algoritmus začíná
+náhodným bodem a hledá v jeho okolí lepší řešení, dokud nenajde lokální extrém. Tento postup se opakuje, dokud nelze
+nalézt lepší bod v bezprostředním okolí. Výsledky budou vizualizovány, aby byl patrný postup hledání.
 
 ## 3. cvičení: Simulované žíhání
 
-Cílem třetího cvičení je implementace algoritmu simulovaného žíhání pro prohledávání v prostoru funkcí. Algorithmus
-simuluje proces žíhání kovu a postupně se snaží najít globální extrém v podobě výběru lepšího bodu v prostoru funkcí,
-nebo zůstat na současném bodě a zmenší teplotu. Výsledky budou vizualizovány.
+Cílem třetího cvičení je implementace algoritmu simulovaného žíhání pro prohledávání v prostoru funkcí. Algoritmus
+simuluje proces postupného ochlazování kovu a hledá globální optimum tak, že občas přijímá i horší řešení, čímž se vyhne
+uvíznutí v lokálních extrémech. Postupně se snižuje „teplota“, což vede k jemnějšímu prohledávání okolí. Výsledky budou
+vizualizovány, aby byl vidět průběh optimalizace.
 
 ## 4. cvičení: Genetické algoritmy
 
-Úkolem čtvrtého cvičení je implementace obchodního cestujícího pomocí genetického algoritmu. Na začátku bude náhodně
-vygenerováno několik měst a následně bude genetickým algoritmem nalezena nejkratší cesta mezi nimi. Výsledky jsou
-krásně vizualizovány na animaci.
+Cílem čtvrtého cvičení je implementace genetického algoritmu pro problém obchodního cestujícího. Na začátku je náhodně
+vygenerováno několik měst, mezi kterými se hledá nejkratší cesta. Genetický algoritmus vytváří nové generace cest
+křížením a mutacemi, aby postupně nalezl optimální trasu. Výsledky budou krásně vizualizovány v animaci.
 
 ## 5. cvičení: Diferenciální evoluce
 
-Cílem pátého cvičení je implementace algoritmu diferenciální evoluce pro prohledávání v prostoru funkcí. Implementovaný
-algoritmus pracuje s populací jedinců, kteří se vzájemně kříží a mutují. Výsledky budou vizualizovány.
+Cílem pátého cvičení je implementace algoritmu diferenciální evoluce pro prohledávání v prostoru funkcí. Algoritmus
+pracuje s populací jedinců, kteří se mezi sebou kříží a mutují, aby vytvářeli nové a lepší generace řešení. Postupně tak
+populace konverguje k optimálnímu řešení v prostoru funkcí. Výsledky budou vizualizovány pro přehled o průběhu
+evolučního procesu.
 
-## 6. cvičení: Particle swarm optimization
+## 6. cvičení: Particle swarm optimization (PSO)
+
+Cílem šestého cvičení je implementace algoritmu particle swarm optimization (PSO) pro prohledávání v prostoru funkcí.
+Algoritmus simuluje chování hejna, kde každá částice představuje možné řešení a pohybuje se prostorem ovlivněná svým
+osobním a globálním nejlepším nalezeným řešením. Částice tak postupně konvergují k optimálnímu bodu v prostoru. Výsledky
+budou vizualizovány, aby bylo možné sledovat dynamiku hejna při hledání globálního extrému.
 
 ## 7. cvičení: Self oraganizing migration algorithm
 
