@@ -31,6 +31,12 @@ algoritmus pracuje s populací jedinců, kteří se vzájemně kříží a mutuj
 
 ## 6. cvičení: Particle swarm optimization
 
-Cílem šestého cvičení je implementace algoritmu particle swarm optimization pro prohledávání v prostoru funkcí.
-Implementovaný algoritmus pracuje s hejnem částic, které se vzájemně ovlivňují a snaží se najít globální extrém v
-prostoru funkcí. 
+## 7. cvičení: Self oraganizing migration algorithm
+
+Cílem sedmého cvičení je implementace algoritmu self organizing migration algorithm pro prohledávání v prostoru funkcí.
+Jedn8 se o verzi "All in One", která v rámci jednoho kroku kombinuje migraci a organizaci částic. Tento algoritmus se
+inspiroval chováním přirozených hejn a kolonií, kde jednotlivé částice kooperují s cílem najít optimální řešení. Na
+začátku se každá částice umístí do náhodného bodu v prostoru funkcí, poté dochází k iterativnímu procesu, kde částice
+přemísťují své pozice směrem k lepším sousedům nebo se organizují podle lokálních vůdců. Cílem je dosáhnout optimálního
+rozložení částic v prostoru, aby se přiblížily globálnímu extrému. Výsledky budou vizualizovány, aby bylo možné
+pozorovat dynamiku a efektivitu migrace a organizace částic.
