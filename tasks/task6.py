@@ -1,7 +1,6 @@
-import copy
 import numpy as np
 from task5 import generate_population
-from tasks.solution import import_and_run
+from tasks.solution import import_and_run, MAX_ITERATIONS
 
 # Constants
 POP_SIZE = 20
@@ -37,7 +36,7 @@ def get_best_position(population, test_function):
     return best_position
 
 
-def particle_swarm_optimization(lower_bound, upper_bound, test_function, max_iterations=1000,
+def particle_swarm_optimization(lower_bound, upper_bound, test_function, max_iterations=MAX_ITERATIONS,
                                 pop_size=5, m_max=50, c1=C1, c2=C2, v_max=V_MAX, v_min=V_MIN,
                                 w_max=W_MAX, w_min=W_MIN):
     # Initialize swarm, best positions, and velocities
