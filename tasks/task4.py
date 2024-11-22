@@ -92,7 +92,7 @@ def get_best_generation(population):
 
 
 def animate(results, cities):
-    """Plot the results in form of animation and save it as gif"""
+    """Plot the results in form of animation and save it as gif."""
     fig, ax = plt.subplots()
     x, y = zip(*results[0])
     line, = ax.plot(x, y, 'b-', marker='o', markerfacecolor='red', markersize=5)
@@ -103,34 +103,46 @@ def animate(results, cities):
     ax.set_ylabel('Y Coordinate')
 
     city_x, city_y = zip(*cities)  # Plot the cities as fixed points
-    ax.plot(city_x, city_y, 'go', markersize=8)
+    ax.plot(city_x, city_y, 'go', markersize=8)  # Plot cities
+
+    # Highlight start and end points with enhanced visuals
+    start_point, = ax.plot(x[0], y[0], marker='*', markersize=15, color='gold',
+                           markeredgecolor='black', markeredgewidth=1.5, label="Start Point")
+    end_point, = ax.plot(x[-1], y[-1], marker='D', markersize=12, color='darkgray',
+                         markeredgecolor='black', markeredgewidth=1.5, label="End Point")
+
+    ax.legend(loc="upper right")  # Add a legend for the points
 
     # Position the text in a non-overlapping location
     text = ax.text(0.05, 0.85, '', transform=ax.transAxes,
                    bbox=dict(facecolor='white', alpha=0.8, boxstyle="round,pad=0.5"))
 
-    # helper function to update the plot for each frame
+    # Helper function to update the plot for each frame
     def update(frame):
         if frame < len(results):
             x_update, y_update = zip(*results[frame])
             line.set_data(x_update, y_update)
-            distance = evaluate_individual(results[frame])
 
-            text.set_text(  # Set structured and clear text
+            # Wrap single x and y values into sequences
+            start_point.set_data([x_update[0]], [y_update[0]])
+            end_point.set_data([x_update[-1]], [y_update[-1]])
+
+            distance = evaluate_individual(results[frame])
+            text.set_text(
                 f"Generation {frame + 1}/{len(results)}\n"
                 f"Best Path Distance: {distance:.2f}"
             )
-        return line, text
+        return line, start_point, end_point, text
 
     total_frames = len(results) + 30  # Adding 30 extra frames to pause at the end
     ani = FuncAnimation(fig, update, frames=total_frames, blit=True, interval=400)
 
     save_path = "../animations/genetic_algorithm_tsp/"
 
-    if not os.path.exists(save_path):  # check if the directory exists
+    if not os.path.exists(save_path):  # Check if the directory exists
         os.makedirs(save_path)
 
-    files_count = len(os.listdir(save_path))  # count the number of files in the directory for unique file name
+    files_count = len(os.listdir(save_path))  # Count the number of files in the directory for unique file name
     ani.save(f"{save_path}tsp_{files_count}.gif", writer="pillow", fps=10)  # Save the animation as gif
 
 
