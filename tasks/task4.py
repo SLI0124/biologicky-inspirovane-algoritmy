@@ -91,14 +91,14 @@ def get_best_generation(population):
     return best_individual
 
 
-def animate(results, cities):
+def animate(results, cities, algorithm_name, save_path):
     """Plot the results in form of animation and save it as gif."""
     fig, ax = plt.subplots()
     x, y = zip(*results[0])
     line, = ax.plot(x, y, 'b-', marker='o', markerfacecolor='red', markersize=5)
     ax.set_xlim(X_RANGE)
     ax.set_ylim(Y_RANGE)
-    ax.set_title('Traveling Salesman Problem using Genetic Algorithm')
+    ax.set_title(f"Traveling Salesman Problem using {algorithm_name}")
     ax.set_xlabel('X Coordinate')
     ax.set_ylabel('Y Coordinate')
 
@@ -137,8 +137,6 @@ def animate(results, cities):
     total_frames = len(results) + 30  # Adding 30 extra frames to pause at the end
     ani = FuncAnimation(fig, update, frames=total_frames, blit=True, interval=400)
 
-    save_path = "../animations/genetic_algorithm_tsp/"
-
     if not os.path.exists(save_path):  # Check if the directory exists
         os.makedirs(save_path)
 
@@ -167,7 +165,7 @@ def main():
         result.append(best_individual)
         print(f"Generation {i + 1}/{G}, Best Path Distance: {evaluate_individual(best_individual):.2f}")
 
-    animate(result, cities)  # save and visualize the results as gif
+    animate(result, cities, "Genetic Algorithm", "../animations/genetic_algorithm_tsp/")
 
 
 if __name__ == "__main__":
