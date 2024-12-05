@@ -49,3 +49,11 @@ začátku se každá částice umístí do náhodného bodu v prostoru funkcí, 
 přemísťují své pozice směrem k lepším sousedům nebo se organizují podle lokálních vůdců. Cílem je dosáhnout optimálního
 rozložení částic v prostoru, aby se přiblížily globálnímu extrému. Výsledky budou vizualizovány, aby bylo možné
 pozorovat dynamiku a efektivitu migrace a organizace částic.
+
+## 8. cvičení: Ant colony hill climbing applied on TSP
+
+Cílem osmého cvičení je implementace algoritmu ant colony hill climbing pro problém obchodního cestujícího. Algoritmus
+kombinuje vlastnosti mravenčí kolonie a hill climbingu, kde mravenci hledají nejkratší cestu mezi městy a zároveň
+využívají hill climbing k nalezení lokálních extrémů. Mravenci se pohybují mezi městy podle feromonové stopy, kterou
+zanechávají, a postupně tak nalézají optimální trasu. Výsledky budou vizualizovány v animaci, aby bylo možné sledovat
+postupné hledání nejkratší cesty.
