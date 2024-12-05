@@ -20,11 +20,6 @@ def distance(x1, x2):
     return np.linalg.norm(x1 - x2)
 
 
-def get_best(pop, lights):
-    """Get the best firefly in the population based on light intensity."""
-    return pop[np.argmin(lights)]
-
-
 def get_light_intensities(pop, function):
     """Calculate the light intensities of the fireflies."""
     return [function(x) for x in pop]
