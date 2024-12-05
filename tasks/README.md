@@ -57,3 +57,11 @@ kombinuje vlastnosti mravenčí kolonie a hill climbingu, kde mravenci hledají 
 využívají hill climbing k nalezení lokálních extrémů. Mravenci se pohybují mezi městy podle feromonové stopy, kterou
 zanechávají, a postupně tak nalézají optimální trasu. Výsledky budou vizualizovány v animaci, aby bylo možné sledovat
 postupné hledání nejkratší cesty.
+
+## 9. cvičení: Firefly algorithm
+
+Cílem devátého cvičení je implementace algoritmu firefly algorithm pro prohledávání v prostoru funkcí. Algoritmus
+simuluje chování světlušek, které se přitahují k sobě na základě intenzity světla, které vysílají. Světlušky se pohybují
+prostorem a snaží se nalézt globální extrém, který je reprezentován nejjasnější světluškou. Postupně se světlušky
+přibližují k optimálnímu bodu v prostoru funkcí. Výsledky budou vizualizovány, aby bylo možné sledovat dynamiku
+světlušek při hledání globálního extrému.
