@@ -39,16 +39,18 @@ def firefly_algorithm(lower_bound, upper_bound, function, max_iteration=MAX_ITER
                       g_max=G, alpha=ALPHA, b_0=BETA_ZERO):
     pop = generate_population(lower_bound, upper_bound, d, pop_size)  # Generate the initial population
     lights = get_light_intensities(pop, function)  # Calculate the light intensities of the fireflies
-    result = []  # Store the best solution for each generation
+    result = []  # Store the positions of all fireflies for each generation
 
     for _ in range(g_max):  # Iterate over the generations
+        generation_points = []  # Store the positions of fireflies for the current generation
         for i in range(pop_size):  # Iterate over the fireflies
             for j in range(pop_size):  # Iterate over the other fireflies
                 if lights[i] > lights[j]:  # If the light intensity of the current firefly is greater than the other
                     # Update the position of the firefly
                     pop[i] += (b_0 / (1 + distance(pop[i], pop[j]))) * (pop[j] - pop[i]) + alpha * normal(d)
             lights[i] = function(pop[i])  # Update the light intensity of the firefly
-        result.append([list(get_best(pop, lights))])  # Store the best solution for the current generation
+            generation_points.append(list(pop[i]))  # Store the position of the firefly
+        result.append(generation_points)  # Store the positions of all fireflies for the current generation
 
     return result
 
