@@ -10,30 +10,21 @@ CR = 0.5  # crossover range
 G_MAX = 100  # number of generation cycles
 
 
-def generate_population(lower_bound, upper_bound, input_np):
-    """Generate a population of NP individuals."""
-    result = []
-    for _ in range(input_np):
-        x = lower_bound + (upper_bound - lower_bound) * np.random.rand()
-        y = lower_bound + (upper_bound - lower_bound) * np.random.rand()
-        result.append([x, y])
-    return result
+def generate_population(lower_bound, upper_bound, input_np, dimension=2):
+    """Generate a population of NP individuals with the given dimension."""
+    return [np.random.uniform(lower_bound, upper_bound, dimension).tolist() for _ in range(input_np)]
 
 
 def get_random_parents(population, exclude):
     """Get random parents for mutation."""
-    result = []
-    for i in range(len(population)):
-        if population[i] not in exclude:
-            result.append(i)
-
+    result = [i for i in range(len(population)) if population[i] not in exclude]
     return random.choice(result)
 
 
-def differential_evolution(lower_bound, upper_bound, test_function):
-    """Differential evolution algorithm for optimization."""
+def differential_evolution(lower_bound, upper_bound, test_function, dimension=2, pop_size=NP):
+    """Differential evolution algorithm for optimization in N dimensions."""
     result = []  # stores the population state at each generation
-    pop = generate_population(lower_bound, upper_bound, NP)  # initial population
+    pop = generate_population(lower_bound, upper_bound, pop_size, dimension)  # initial population
     for g in range(G_MAX):
         new_population = copy.deepcopy(pop)
 
@@ -55,7 +46,7 @@ def differential_evolution(lower_bound, upper_bound, test_function):
 
             # crossover: generate trial vector by crossing over genes from mutated and original individual
             for j in range(len(individual)):
-                # preform crossover based on crossover range and random index
+                # perform crossover based on crossover range and random index
                 if np.random.uniform() < CR or j == j_rnd:
                     trial_vector[j] = mutated_individual[j]
                 else:
