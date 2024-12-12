@@ -52,7 +52,6 @@ def self_organizing_migration_algorithm(lower_bound, upper_bound, test_function,
     all_points = []
 
     for migration in range(migrations):  # iterate through the migrations
-        print(f"Migration {migration + 1}/{migrations}")
         new_population = []
 
         for individual in population:  # iterate through the population

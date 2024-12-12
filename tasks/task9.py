@@ -31,10 +31,10 @@ def normal(d):
     return np.random.normal(0, 1, d)
 
 
-def firefly_algorithm(lower_bound, upper_bound, function, d=DIMENSION, pop_size=POP_SIZE,
+def firefly_algorithm(lower_bound, upper_bound, test_function, d=DIMENSION, pop_size=POP_SIZE,
                       g_max=G, alpha=ALPHA, b_0=BETA_ZERO):
     pop = generate_population(lower_bound, upper_bound, d, pop_size)  # Generate the initial population
-    lights = get_light_intensities(pop, function)  # Calculate the light intensities of the fireflies
+    lights = get_light_intensities(pop, test_function)  # Calculate the light intensities of the fireflies
     result = []  # Store the positions of all fireflies for each generation
 
     for _ in range(g_max):  # Iterate over the generations
@@ -44,7 +44,7 @@ def firefly_algorithm(lower_bound, upper_bound, function, d=DIMENSION, pop_size=
                 if lights[i] > lights[j]:  # If the light intensity of the current firefly is greater than the other
                     # Update the position of the firefly
                     pop[i] += (b_0 / (1 + distance(pop[i], pop[j]))) * (pop[j] - pop[i]) + alpha * normal(d)
-            lights[i] = function(pop[i])  # Update the light intensity of the firefly
+            lights[i] = test_function(pop[i])  # Update the light intensity of the firefly
             generation_points.append(list(pop[i]))  # Store the position of the firefly
         result.append(generation_points)  # Store the positions of all fireflies for the current generation
 
