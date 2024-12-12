@@ -1,13 +1,14 @@
 import numpy as np
 import random
 from solution import import_and_run
-from tasks.solution import MAX_ITERATIONS
 
 # Constants
 POP_SIZE = 20  # Population size
 G = 200  # Number of generations
 ALPHA = 0.3  # Alpha for the firefly movement, that is the randomization parameter
 BETA_ZERO = 1.0  # Beta for the firefly movement, that is the attractiveness parameter
+
+DIMENSION = 2  # Dimension of the search space
 
 
 def generate_population(lower_bound, upper_bound, d, pop_size):
@@ -30,7 +31,7 @@ def normal(d):
     return np.random.normal(0, 1, d)
 
 
-def firefly_algorithm(lower_bound, upper_bound, function, max_iteration=MAX_ITERATIONS, d=2, pop_size=POP_SIZE,
+def firefly_algorithm(lower_bound, upper_bound, function, d=DIMENSION, pop_size=POP_SIZE,
                       g_max=G, alpha=ALPHA, b_0=BETA_ZERO):
     pop = generate_population(lower_bound, upper_bound, d, pop_size)  # Generate the initial population
     lights = get_light_intensities(pop, function)  # Calculate the light intensities of the fireflies

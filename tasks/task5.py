@@ -1,4 +1,4 @@
-from solution import import_and_run, MAX_ITERATIONS
+from solution import import_and_run
 
 import copy
 import random
@@ -30,7 +30,7 @@ def get_random_parents(population, exclude):
     return random.choice(result)
 
 
-def differential_evolution(lower_bound, upper_bound, test_function, max_iterations=MAX_ITERATIONS):
+def differential_evolution(lower_bound, upper_bound, test_function):
     """Differential evolution algorithm for optimization."""
     result = []  # stores the population state at each generation
     pop = generate_population(lower_bound, upper_bound, NP)  # initial population

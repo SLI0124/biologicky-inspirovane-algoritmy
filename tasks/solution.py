@@ -22,7 +22,7 @@ ALPHA_ANNEALING = 0.95  # temperature decrease factor
 
 
 class Solution:
-    def __init__(self, dimension, lower_bound, upper_bound, step, function, algorithm, iterations):
+    def __init__(self, dimension, lower_bound, upper_bound, step, function, algorithm):
         # Initialize parameters for the optimization problem
         self.d = dimension
         self.min = lower_bound
@@ -30,7 +30,6 @@ class Solution:
         self.step = step
         self.f = function
         self.algorithm = algorithm
-        self.iterations = iterations  # Number of iterations for the algorithm
         self.params = []  # Store parameters for the grid
         self.fig = plt.figure()  # Create a new figure
         self.ax = self.fig.add_subplot(111, projection='3d')  # Set up 3D plotting
@@ -68,7 +67,7 @@ class Solution:
         self.tmp = []  # Reset temporary storage for points history
 
         # Execute the algorithm and collect points
-        all_points = self.algorithm(self.min, self.max, self.f, self.iterations)  # Pass iterations
+        all_points = self.algorithm(self.min, self.max, self.f)  # Pass iterations
 
         for points in all_points:
             current_value = self.f(np.array(points[-1]))  # Get the function value at the last point
@@ -123,7 +122,7 @@ def import_and_run(algorithm):
     for i, function in get_all_functions().items():
         lower_bound, upper_bound, step_size = get_function_parameters(function)
 
-        solution = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, algorithm, MAX_ITERATIONS)
+        solution = Solution(DIMENSION, lower_bound, upper_bound, step_size, function, algorithm)
         best_solution = solution.find_minimum()
         function_name = function.__name__ if hasattr(function, '__name__') else str(function)
         algorithm_name = algorithm.__name__ if hasattr(algorithm, '__name__') else str(algorithm)

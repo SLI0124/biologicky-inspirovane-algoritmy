@@ -1,6 +1,6 @@
 import numpy as np
 from task5 import generate_population
-from tasks.solution import import_and_run, MAX_ITERATIONS
+from tasks.solution import import_and_run
 
 # Constants
 POP_SIZE = 20
@@ -36,9 +36,8 @@ def get_best_position(population, test_function):
     return best_position
 
 
-def particle_swarm_optimization(lower_bound, upper_bound, test_function, max_iterations=MAX_ITERATIONS,
-                                pop_size=POP_SIZE, m_max=M_MAX, c1=C1, c2=C2, v_max=V_MAX, v_min=V_MIN,
-                                w_max=W_MAX, w_min=W_MIN):
+def particle_swarm_optimization(lower_bound, upper_bound, test_function, pop_size=POP_SIZE, m_max=M_MAX, c1=C1, c2=C2,
+                                v_max=V_MAX, v_min=V_MIN, w_max=W_MAX, w_min=W_MIN):
     # Initialize swarm, best positions, and velocities
     swarm = np.array(generate_population(lower_bound, upper_bound, pop_size))  # Generate initial population
     p_best = np.copy(swarm)  # Initialize personal best positions
@@ -48,7 +47,7 @@ def particle_swarm_optimization(lower_bound, upper_bound, test_function, max_ite
     all_points = []
     for m in range(m_max):  # Iterate over all generations based on max iterations
         iteration_points = []
-        w = w_max - (w_max - w_min) * (m / max_iterations)  # Adaptive inertia weight
+        w = w_max - (w_max - w_min) * (m / m_max)
 
         for i in range(pop_size):  # Iterate over all individuals in the population
             x, p_best_i = swarm[i], p_best[i]  # Get current position and personal best position

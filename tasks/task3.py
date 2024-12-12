@@ -1,9 +1,9 @@
 import numpy as np
 
-from solution import T_ZERO, T_MIN, ALPHA_ANNEALING, MAX_ITERATIONS, import_and_run
+from solution import T_ZERO, T_MIN, ALPHA_ANNEALING, import_and_run
 
 
-def simulated_annealing(lower_bound, upper_bound, test_function, max_iterations=MAX_ITERATIONS, t_zero=T_ZERO,
+def simulated_annealing(lower_bound, upper_bound, test_function, t_zero=T_ZERO,
                         t_min=T_MIN, alpha=ALPHA_ANNEALING):
     """Simulated annealing algorithm for optimization."""
     best_points_history = []

@@ -1,7 +1,6 @@
 import numpy as np
 from task5 import generate_population
 from solution import import_and_run
-from tasks.solution import MAX_ITERATIONS
 
 # Constants
 POP_SIZE = 20
@@ -44,9 +43,8 @@ def migrate_individual(individual, best_individual, test_function, lower_bound, 
     return individual
 
 
-def self_organizing_migration_algorithm(lower_bound, upper_bound, test_function, iterations=MAX_ITERATIONS,
-                                        pop_size=POP_SIZE, migrations=MIGRATIONS, step=STEP, prt=PRT,
-                                        path_length=PATH_LENGTH):
+def self_organizing_migration_algorithm(lower_bound, upper_bound, test_function, pop_size=POP_SIZE,
+                                        migrations=MIGRATIONS, step=STEP, prt=PRT, path_length=PATH_LENGTH):
     """SOMA all-to-one implementation."""
     population = initialize_population(lower_bound, upper_bound, pop_size)  # generate the initial population
     best_individual, best_value = evaluate_population(population, test_function)  # find the best individual
