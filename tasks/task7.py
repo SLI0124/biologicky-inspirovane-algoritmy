@@ -8,11 +8,12 @@ MIGRATIONS = 100
 STEP = 0.11
 PRT = 0.4
 PATH_LENGTH = 3.0
+DIMENSION = 2
 
 
-def initialize_population(lower_bound, upper_bound, pop_size):
+def initialize_population(lower_bound, upper_bound, pop_size, dimension):
     """Generates the initial population within the given bounds."""
-    return np.array(generate_population(lower_bound, upper_bound, pop_size))
+    return np.array(generate_population(lower_bound, upper_bound, pop_size, dimension))
 
 
 def evaluate_population(population, test_function):
@@ -43,10 +44,10 @@ def migrate_individual(individual, best_individual, test_function, lower_bound, 
     return individual
 
 
-def self_organizing_migration_algorithm(lower_bound, upper_bound, test_function, pop_size=POP_SIZE,
+def self_organizing_migration_algorithm(lower_bound, upper_bound, test_function, pop_size=POP_SIZE, dim=DIMENSION,
                                         migrations=MIGRATIONS, step=STEP, prt=PRT, path_length=PATH_LENGTH):
     """SOMA all-to-one implementation."""
-    population = initialize_population(lower_bound, upper_bound, pop_size)  # generate the initial population
+    population = initialize_population(lower_bound, upper_bound, pop_size, dim)  # generate the initial population
     best_individual, best_value = evaluate_population(population, test_function)  # find the best individual
     all_points = []
 
