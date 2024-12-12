@@ -6,14 +6,13 @@ from task7 import self_organizing_migration_algorithm, MIGRATIONS, STEP, PRT, PA
 from task9 import firefly_algorithm, G, ALPHA, BETA_ZERO
 
 import numpy as np
-import time
 import xlsxwriter
 import os
 
 DIMENSION = 30
 POPULATION_SIZE = 30
 MAX_OFE = 3_000
-NUMBER_OF_EXPERIMENTS = 2
+NUMBER_OF_EXPERIMENTS = 30
 
 
 def teaching_learning_based_optimization(lower_bound, upper_bound, test_function, pop_size=POPULATION_SIZE,
@@ -70,109 +69,105 @@ def teaching_learning_based_optimization(lower_bound, upper_bound, test_function
     return results
 
 
+def get_best_result(results, test_function):
+    last_population = results[-1]  # Get the last population
+    fitness_values = [test_function(np.array(individual)) for individual in
+                      last_population]  # Ensure it's a NumPy array
+    best_idx = np.argmin(fitness_values)  # Find the index of the best individual
+    best_value = fitness_values[best_idx]  # Get the best fitness value
+    return best_value
+
+
 def create_xlsx_file():
     results = []
 
-    for exp_count in range(1, NUMBER_OF_EXPERIMENTS + 1):
-        print(f"Experiment {exp_count}/{NUMBER_OF_EXPERIMENTS}")
+    for experiment_number in range(1, NUMBER_OF_EXPERIMENTS + 1):
+        print(f"Experiment {experiment_number}/{NUMBER_OF_EXPERIMENTS}")
         for i, function in get_all_functions().items():
             lower_bound, upper_bound, _ = get_function_parameters(function)
             print(f"Function: {function.__name__}")
 
             differential_result = differential_evolution(lower_bound=lower_bound, upper_bound=upper_bound,
                                                          test_function=function, dimension=DIMENSION,
-                                                         pop_size=POPULATION_SIZE)
+                                                         pop_size=POPULATION_SIZE, f=F, cr=CR, g_max=G_MAX)
+            dif_best = get_best_result(differential_result, function)
 
             pso_res = particle_swarm_optimization(lower_bound=lower_bound, upper_bound=upper_bound,
                                                   test_function=function,
-                                                  pop_size=POPULATION_SIZE, dimension=DIMENSION)
+                                                  pop_size=POPULATION_SIZE, dimension=DIMENSION, m_max=M_MAX, c1=C1,
+                                                  c2=C2, v_max=V_MAX, v_min=V_MIN, w_max=W_MAX, w_min=W_MIN)
+            pso_best = get_best_result(pso_res, function)
 
             soma_res = self_organizing_migration_algorithm(lower_bound=lower_bound, upper_bound=upper_bound,
                                                            test_function=function, pop_size=POPULATION_SIZE,
-                                                           dim=DIMENSION)
+                                                           dim=DIMENSION, migrations=MIGRATIONS, step=STEP, prt=PRT,
+                                                           path_length=PATH_LENGTH)
+            soma_best = get_best_result(soma_res, function)
 
             firefly_res = firefly_algorithm(lower_bound=lower_bound, upper_bound=upper_bound, test_function=function,
-                                            d=DIMENSION, pop_size=POPULATION_SIZE)
+                                            d=DIMENSION, pop_size=POPULATION_SIZE, g_max=G, alpha=ALPHA, b_0=BETA_ZERO)
+            firefly_best = get_best_result(firefly_res, function)
 
-            teach_learn_based_res = teaching_learning_based_optimization(lower_bound=lower_bound,
-                                                                         upper_bound=upper_bound,
-                                                                         test_function=function,
-                                                                         pop_size=POPULATION_SIZE,
-                                                                         dimension=DIMENSION, max_ofe=MAX_OFE)
+            tlbo_res = teaching_learning_based_optimization(lower_bound=lower_bound,
+                                                            upper_bound=upper_bound,
+                                                            test_function=function,
+                                                            pop_size=POPULATION_SIZE,
+                                                            dimension=DIMENSION, max_ofe=MAX_OFE)
+            tlbo_best = get_best_result(tlbo_res, function)
 
-            # pick the best solution for each algorithm, we assume that algorithms found best solution as last element
-            # of the results, second element is result value, for example (x, y, result) we want to always pick the last
-            # element, no matter the dimension of the result
-            best_diff = differential_result[-1][-1]
-            best_pso = pso_res[-1][-1]
-            best_soma = soma_res[-1][-1]
-            best_firefly = firefly_res[-1][-1]
-            best_teach_learn_based = teach_learn_based_res[-1][-1]
-
-            # append results
-            results.append(
-                [exp_count, function.__name__, best_diff, best_pso, best_soma, best_firefly, best_teach_learn_based])
+            results.append((experiment_number, function.__name__,
+                            dif_best, pso_best, soma_best, firefly_best, tlbo_best))
 
         print()
 
-    # print results
-    for result in results:
-        print(f"Experiment {result[0]}\tFunction: {result[1]}\nBest DE: {result[2]}\nBest PSO: {result[3]}\n"
-              f"Best SOMA: {result[4]}\nBest FA: {result[5]}\nBest TLBO: {result[6]}\n")
-
-    save_path = "../results/"
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
+    # create xlsx file
+    save_dir = "../results/"
     file_name = "task10_results.xlsx"
 
-    workbook = xlsxwriter.Workbook(save_path + file_name)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
-    # create 9 worksheets for each function
-    # start by adding title to the worksheet that is 6 columns wide
+    workbook = xlsxwriter.Workbook(save_dir + file_name)
 
-    # then create header for each worksheet with 6 columns:
-    # empty (for experiment columns), DE, PSO, SOMA, FA TLBO
-
-    # put results in the worksheet accordingly
-
-    # at the end, calculate mean and std. deviation for each algorithm and each function
-    # put the name instead of experiment number
-
-    for i, function in get_all_functions().items():
+    # create worksheet for each function
+    for function in get_all_functions().values():
         worksheet = workbook.add_worksheet(function.__name__)
+        worksheet.write(0, 0, "Experiment")
+        worksheet.write(0, 1, "DE")
+        worksheet.write(0, 2, "PSO")
+        worksheet.write(0, 3, "SOMA")
+        worksheet.write(0, 4, "FA")
+        worksheet.write(0, 5, "TLBO")
 
-        # create title 6 columns wide
-        worksheet.merge_range(first_row=0, first_col=0, last_row=0, last_col=5, data=function.__name__,
-                              cell_format=workbook.add_format({'bold': True, 'font_size': 16}))
+    # write results to the xlsx file
+    for result in results:
+        worksheet = workbook.get_worksheet_by_name(result[1])
+        worksheet.write(result[0], 0, f"Exp. {result[0]}")
+        worksheet.write(result[0], 1, result[2])  # Just write the scalar directly
+        worksheet.write(result[0], 2, result[3])  # Same here
+        worksheet.write(result[0], 3, result[4])  # And here
+        worksheet.write(result[0], 4, result[5])  # Same here
+        worksheet.write(result[0], 5, result[6])  # Same here
 
-        # worksheet.write(1, 0, "")
-        worksheet.write(row=1, col=0, data="Experiment")
-        worksheet.write(row=1, col=1, data="DE")
-        worksheet.write(row=1, col=2, data="PSO")
-        worksheet.write(row=1, col=3, data="SOMA")
-        worksheet.write(row=1, col=4, data="FA")
-        worksheet.write(row=1, col=5, data="TLBO")
+    # Calculate mean and std deviation and put it in the last row
+    for function in get_all_functions().values():
+        worksheet = workbook.get_worksheet_by_name(function.__name__)
+        worksheet.write(NUMBER_OF_EXPERIMENTS + 1, 0, "Mean")
+        worksheet.write(NUMBER_OF_EXPERIMENTS + 2, 0, "Std. Dev")
 
-        for j, result in enumerate(results):  # for each result
-            if result[1] == function.__name__:
-                worksheet.write(row=j + 2, col=0, data="Experiment " + str(result[0]))
-                worksheet.write(row=j + 2, col=1, data=result[2])
-                worksheet.write(row=j + 2, col=2, data=result[3])
-                worksheet.write(row=j + 2, col=3, data=result[4])
-                worksheet.write(row=j + 2, col=4, data=result[5])
-                worksheet.write(row=j + 2, col=5, data=result[6])
+        # Collect data manually to calculate mean and std. dev
+        data_de = [result[2] for result in results if result[1] == function.__name__]
+        data_pso = [result[3] for result in results if result[1] == function.__name__]
+        data_soma = [result[4] for result in results if result[1] == function.__name__]
+        data_fa = [result[5] for result in results if result[1] == function.__name__]
+        data_tlbo = [result[6] for result in results if result[1] == function.__name__]
 
-    # calculate mean and std. deviation for each algorithm and each function
-    # for i, function in get_all_functions().items():
-    #     worksheet = workbook.get_worksheet_by_name(function.__name__)
-    #     worksheet.write(len(results) + 1, 0, "Mean")
-    #     worksheet.write(len(results) + 2, 0, "Std. Deviation")
-    #
-    #     for j in range(1, 6):
-    #         values = [result[j] for result in results if result[1] == function.__name__]
-    #         values = [v for v in values if isinstance(v, (int, float))]
-    #         worksheet.write(len(results) + 1, j, np.mean(values))
-    #         worksheet.write(len(results) + 2, j, np.std(values))
+        # Write the mean and standard deviation for each column
+        for col, data in enumerate([data_de, data_pso, data_soma, data_fa, data_tlbo], 1):
+            mean = np.mean(data)
+            std_dev = np.std(data)
+            worksheet.write(NUMBER_OF_EXPERIMENTS + 1, col, mean)
+            worksheet.write(NUMBER_OF_EXPERIMENTS + 2, col, std_dev)
 
     workbook.close()
 
