@@ -86,9 +86,11 @@ def levy(parameters):
 def michalewicz(parameters):
     dimension = len(parameters)
     m = 10
+    result = 0
     for i in range(dimension):
-        parameters[i] = np.sin(parameters[i]) * np.sin((i + 1) * parameters[i] ** 2 / np.pi) ** (2 * m)
-    return -np.sum(parameters)
+        term = np.sin(parameters[i]) * (np.sin((i + 1) * parameters[i] ** 2 / np.pi) ** (2 * m))
+        result += term
+    return -result
 
 
 def zakharov(parameters):
