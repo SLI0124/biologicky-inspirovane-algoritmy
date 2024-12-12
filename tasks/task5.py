@@ -21,11 +21,11 @@ def get_random_parents(population, exclude):
     return random.choice(result)
 
 
-def differential_evolution(lower_bound, upper_bound, test_function, dimension=2, pop_size=NP):
+def differential_evolution(lower_bound, upper_bound, test_function, dimension=2, pop_size=NP, f=F, cr=CR, g_max=G_MAX):
     """Differential evolution algorithm for optimization in N dimensions."""
     result = []  # stores the population state at each generation
     pop = generate_population(lower_bound, upper_bound, pop_size, dimension)  # initial population
-    for g in range(G_MAX):
+    for g in range(g_max):
         new_population = copy.deepcopy(pop)
 
         # iterate over all individuals in the population
@@ -40,14 +40,14 @@ def differential_evolution(lower_bound, upper_bound, test_function, dimension=2,
             r2 = np.array(new_population[r2_i])
             r3 = np.array(new_population[r3_i])
 
-            mutated_individual = (r1 - r2) * F + r3  # mutation formula
+            mutated_individual = (r1 - r2) * f + r3  # mutation formula
             trial_vector = np.zeros(len(individual))  # trial vector/individual initialized to zeros
             j_rnd = np.random.randint(0, len(individual))  # random index for crossover, ensures at least one crossover
 
             # crossover: generate trial vector by crossing over genes from mutated and original individual
             for j in range(len(individual)):
                 # perform crossover based on crossover range and random index
-                if np.random.uniform() < CR or j == j_rnd:
+                if np.random.uniform() < cr or j == j_rnd:
                     trial_vector[j] = mutated_individual[j]
                 else:
                     trial_vector[j] = individual[j]
