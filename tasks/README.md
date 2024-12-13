@@ -65,3 +65,13 @@ simuluje chování světlušek, které se přitahují k sobě na základě inten
 prostorem a snaží se nalézt globální extrém, který je reprezentován nejjasnější světluškou. Postupně se světlušky
 přibližují k optimálnímu bodu v prostoru funkcí. Výsledky budou vizualizovány, aby bylo možné sledovat dynamiku
 světlušek při hledání globálního extrému.
+
+## 10. cvičení: Teaching learning based optimization
+
+Cílem desátého cvičení je implementace algoritmu teaching learning based optimization pro prohledávání v prostoru
+funkcí. Tentokrát se jedná o algoritmus inspirovaný procesem výuky a učení, kde studenti a učitelé spolupracují na
+nalezení optimálního řešení. Studenti se pohybují v prostoru funkcí a snaží se nalézt globální extrém, zatímco učitelé
+se snaží pomoci studentům k lepším řešením. Postupně se celá třída snaží konvergovat k optimálnímu bodu v prostoru
+funkcí. Výsledky budou zapsány do jednoho Excel souboru (.xlsx), aby bylo možné analyzovat průběh optimalizace. Celkem
+se provede daný počet experimentů, během kterého se ve více než trojrozměrném poli prostoru funkcí hledá optimální bod.
+Pro každý algoritmus se vypočte průměrná hodnota a směrodatná odchylka z výsledků experimentů.
