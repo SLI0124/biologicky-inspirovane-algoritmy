@@ -9,7 +9,7 @@ import numpy as np
 import xlsxwriter
 import os
 
-DIMENSION = 30
+DIMENSION = 2
 POPULATION_SIZE = 30
 MAX_OFE = 3_000
 NUMBER_OF_EXPERIMENTS = 30
@@ -295,7 +295,9 @@ def create_xlsx_file():
 
 
 if __name__ == "__main__":
-    create_xlsx_file()
+    # un/comment this to create animations
+    import_and_run(teaching_learning_based_optimization)
 
-    # uncomment this to create animations
-    # import_and_run(teaching_learning_based_optimization)
+    # un/comment this to create xlsx file (it will take some time)
+    # and change the desired number of experiments, dimensions or population size
+    # create_xlsx_file()
